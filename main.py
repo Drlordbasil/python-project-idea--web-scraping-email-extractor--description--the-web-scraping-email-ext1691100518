@@ -28,7 +28,8 @@ class EmailExtractor:
                 response = requests.get(url)
                 if response.status_code == 200:
                     soup = BeautifulSoup(response.content, 'html.parser')
-                    email_addresses = self.extract_email_addresses_from_page(soup)
+                    email_addresses = self.extract_email_addresses_from_page(
+                        soup)
                     self.email_addresses.update(email_addresses)
                     for link in soup.find_all('a', href=True):
                         link_url = self.get_absolute_url(url, link['href'])
@@ -39,7 +40,8 @@ class EmailExtractor:
 
     def extract_email_addresses_from_page(self, soup):
         email_addresses = set()
-        email_pattern = re.compile(r'[-.\w]{1,64}@[-.\w]{1,255}\.[a-zA-Z]{2,6}')
+        email_pattern = re.compile(
+            r'[-.\w]{1,64}@[-.\w]{1,255}\.[a-zA-Z]{2,6}')
         email_matches = re.findall(email_pattern, str(soup))
         email_addresses.update(email_matches)
 
